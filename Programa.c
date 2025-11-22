@@ -22,44 +22,127 @@ typedef struct Data{
 
 
 /*
-* Função: inserir_clientes
-* Descrição: Insere os dados de um cliente na lista.
-* Parâmetros:
+* Fun??o: inserir_clientes
+* Descri??o: Insere os dados de um cliente na lista.
+* Par?metros:
 * listaClientes: vetor de clientes.
 * cliente: estrutura contendo os dados do cliente.
-* quantClientes: Números de Clientes Cadastrados
+* quantClientes: N?meros de Clientes Cadastrados
 * Retorna:
 * A Nova Quantidade de Clientes
 Cadastrados
 */
 int inserir_clientes(cliente listaClientes[], int quantClientes)
 {
-	printf("\nInsira as informações do Cliente: \n");
+	printf("\nInsira as informa??es do Cliente: \n");
 	printf("\nNome:");
-	scanf(" %s", listaClientes[quantClientes].nome);
+	scanf(" %[^\n]", listaClientes[quantClientes].nome);
 	
 	printf("\nTelefone:");
-	scanf(" %s", listaClientes[quantClientes].telefone);
+	scanf(" %[^\n]", listaClientes[quantClientes].telefone);
 
 	printf("\nEmpresa:");
-	scanf(" %s", listaClientes[quantClientes].empresa);
+	scanf(" %[^\n]", listaClientes[quantClientes].empresa);
 	
 	printf("\nEmail:");
-	scanf(" %s", listaClientes[quantClientes].email);
+	scanf(" %[^\n]", listaClientes[quantClientes].email);
 	
 	printf("\nCEP:");
-	scanf(" %s", listaClientes[quantClientes].cep);
+	scanf(" %[^\n]", listaClientes[quantClientes].cep);
 	
 	printf("\nCelular:");
-	scanf(" %s", listaClientes[quantClientes].celular);
+	scanf(" %[^\n]", listaClientes[quantClientes].celular);
 	return quantClientes+1;
 	
 }
 
-void alterar_dados()
+void alterar_dados(cliente listaClientes[], int quantClientes)
 {
-	
+    if (quantClientes == 0)
+    {
+        printf("\nNao existe nenhum cliente cadastrado!\n");
+        return;
+    }
+    
+    int indice, opc, i;
+
+    printf("\n===== Clientes Cadastrados =====\n");
+
+    // Mostrar clientes comeÃ§ando do 1
+    for (i = 0; i < quantClientes; i++)
+    {
+        printf("%d - %s\n", i + 1, listaClientes[i].nome);
+    }
+
+    printf("\nDigite o numero do cliente que voce deseja alterar: ");
+    scanf("%d", &indice);
+
+    // Validando escolha
+    if (indice < 1 || indice > quantClientes)
+    {
+        printf("\nNao existe cliente nessa posicao!\n");
+        return;
+    }
+
+    indice--; // Ajusta para Ã­ndice real do vetor
+    
+    do
+    {
+        printf("\n===== Alterar Dados de %s =====\n", listaClientes[indice].nome);
+        printf("1 - Alterar Nome\n");
+        printf("2 - Alterar Telefone\n");
+        printf("3 - Alterar Empresa\n");
+        printf("4 - Alterar E-mail\n");
+        printf("5 - Alterar CEP\n");
+        printf("6 - Alterar Celular\n");
+        printf("0 - Voltar ao Menu\n");
+        printf("Opcao: ");
+        scanf("%d", &opc);
+
+        switch (opc)
+        {
+            case 1:
+                printf("Novo Nome: ");
+                scanf(" %[^\n]", listaClientes[indice].nome);
+                break;
+
+            case 2:
+                printf("Novo Telefone: ");
+                scanf(" %[^\n]", listaClientes[indice].telefone);
+                break;
+
+            case 3:
+                printf("Nova Empresa: ");
+                scanf(" %[^\n]", listaClientes[indice].empresa);
+                break;
+
+            case 4:
+                printf("Novo Email: ");
+                scanf(" %[^\n]", listaClientes[indice].email);
+                break;
+
+            case 5:
+                printf("Novo CEP: ");
+                scanf(" %[^\n]", listaClientes[indice].cep);
+                break;
+
+            case 6:
+                printf("Novo Celular: ");
+                scanf(" %[^\n]", listaClientes[indice].celular);
+                break;
+
+            case 0:
+                printf("\nVoltando ao menu...\n");
+                break;
+
+            default:
+                printf("\nOpcao invalida!\n");
+                break;
+        }
+
+    } while (opc != 0);
 }
+
 
 void excluir_cliente()
 {
@@ -67,14 +150,14 @@ void excluir_cliente()
 }
 
 /*
-* Função: listar_nomes
-* Descrição: Lista o .
-* Parâmetros:
+* Fun??o: listar_nomes
+* Descri??o: Lista o .
+* Par?metros:
 * lista: vetor de clientes.
 * cliente: estrutura contendo os dados do cliente.
 * Retorna:
-* 1 se a inserção for bem-sucedida, 0 caso
-contrário.
+* 1 se a inser??o for bem-sucedida, 0 caso
+contr?rio.
 */
 
 void listar_nomes(cliente listaClientes[], int quantClientes)
@@ -128,7 +211,7 @@ int main()
 		switch(opc)
 		{
 			case 1: quantClientes = inserir_clientes(listaClientes, quantClientes); break;
-			case 2: alterar_dados(); break;
+			case 2: alterar_dados(listaClientes, quantClientes); break;
 			case 3: excluir_cliente(); break;
 			case 4: listar_nomes(listaClientes, quantClientes); break;
 			case 5: pesquisar_nome_empresa(); break;
