@@ -20,6 +20,18 @@ typedef struct Data{
 	int mes;
 }data;
 
+int verificarClientes(int quantClientes)
+{
+	if (quantClientes == 0)
+    {
+        printf("\nNao existe nenhum cliente cadastrado!\n");
+        printf("Escolha outra Opcao!!\n"); 
+		return 0;
+    }else{
+    	return 1;
+	}
+}
+
 
 /*
 * Fun??o: inserir_clientes
@@ -58,21 +70,11 @@ int inserir_clientes(cliente listaClientes[], int quantClientes)
 
 void alterar_dados(cliente listaClientes[], int quantClientes)
 {
-    if (quantClientes == 0)
-    {
-        printf("\nNao existe nenhum cliente cadastrado!\n");
-        return;
-    }
+
     
     int indice, opc, i;
 
-    printf("\n===== Clientes Cadastrados =====\n");
-
-    // Mostrar clientes começando do 1
-    for (i = 0; i < quantClientes; i++)
-    {
-        printf("%d - %s\n", i + 1, listaClientes[i].nome);
-    }
+	indice = listar_nomes(listaClientes, quantClientes); 
 
     printf("\nDigite o numero do cliente que voce deseja alterar: ");
     scanf("%d", &indice);
@@ -160,38 +162,25 @@ void excluir_cliente()
 contr?rio.
 */
 
-void listar_nomes(cliente listaClientes[], int quantClientes)
+int listar_nomes(cliente listaClientes[], int quantClientes)
 {
 
 	int i;
+	printf("\n===== Clientes Cadastrados =====\n");
 	for(i=0; i<quantClientes; i++)
 	{
 		printf("\nCliente %d:", i+1);
-		printf("\nNome: %s", listaClientes[i].nome);
-		
-		printf("\nTelefone: %s", listaClientes[i].telefone);
-	
-		printf("\nEmpresa: %s", listaClientes[i].empresa);
-		
-		printf("\nEmail: %s", listaClientes[i].email);
-		
-		printf("\nCEP: %s", listaClientes[i].cep);
-		
-		printf("\nCelular: %s\n", listaClientes[i].celular);
+		printf("\nNome: %s \n", listaClientes[i].nome);
 	}
+	return i;
+	
 }
-
-void pesquisar_nome_empresa(cliente listaClientes[], int quantClientes)
+void pesquisar_nome_empresa(cliente listaClientes[], int quantClientes, char nomeEmpresa[])
 {
 	int i;
-	char nomeempresa[50];
-	
-	printf("Digite o nome da empresa:");
-	scanf("%s", nomeempresa);
-	
 	for(i = 0; i < quantClientes; i++)
 	{
-		if(strcmp(listaClientes[i].empresa, nomeempresa) == 0)
+		if(strcmp(listaClientes[i].empresa, nomeEmpresa) == 0)
 		{
 			printf("\nCliente %d:", i+1);
 			printf("\nNome: %s", listaClientes[i].nome);
@@ -210,11 +199,47 @@ void pesquisar_nome_empresa(cliente listaClientes[], int quantClientes)
 
 }
 
-void pesquisar_nome_cliente()
-{
+char ler_nome_empresa(cliente listaClientes[], int quantClientes){
+	char nomeEmpresa[50];
+	
+	printf("Digite o nome da empresa:");
+	scanf("%s", nomeEmpresa);
+	pesquisar_nome_empresa(listaClientes, quantClientes, nomeEmpresa);
 	
 }
 
+
+void pesquisar_nome_cliente(cliente listaClientes[], int quantClientes, char nomeCliente[])
+{
+	int i;
+	for(i = 0; i < quantClientes; i++)
+	{
+		if(strcmp(listaClientes[i].nome, nomeCliente) == 0)
+		{
+			printf("\nCliente %d:", i+1);
+			printf("\nNome: %s", listaClientes[i].nome);
+			
+			printf("\nTelefone: %s", listaClientes[i].telefone);
+			
+			printf("\nEmpresa: %s", listaClientes[i].empresa);
+				
+			printf("\nEmail: %s", listaClientes[i].email);
+				
+			printf("\nCEP: %s", listaClientes[i].cep);
+				
+			printf("\nCelular: %s\n", listaClientes[i].celular);
+		}
+	}
+}
+
+char ler_nome_cliente(cliente listaClientes[], int quantClientes)
+{
+	char nomeCliente[50];
+	printf("Digite o Nome do Cliente: ");
+	scanf("%s", &nomeCliente);
+	pesquisar_nome_cliente(listaClientes, quantClientes, nomeCliente);
+	
+}
 int main()
 {
     cliente listaClientes[MAX_CLIENTES];
@@ -234,12 +259,35 @@ int main()
 		
 		switch(opc)
 		{
-			case 1: quantClientes = inserir_clientes(listaClientes, quantClientes); break;
-			case 2: alterar_dados(listaClientes, quantClientes); break;
-			case 3: excluir_cliente(); break;
-			case 4: listar_nomes(listaClientes, quantClientes); break;
-			case 5: pesquisar_nome_empresa(listaClientes, quantClientes); break;
-			case 6: pesquisar_nome_cliente(); break;
+			case 1: 
+				quantClientes = inserir_clientes(listaClientes, quantClientes); 
+				break;
+			
+			case 2:
+				if(verificarClientes(quantClientes))
+					alterar_dados(listaClientes, quantClientes); 
+				break;
+			
+			case 3: 
+				if(verificarClientes(quantClientes))
+					excluir_cliente(); 
+				break;
+			
+			case 4: 
+				if(verificarClientes(quantClientes))
+					listar_nomes(listaClientes, quantClientes); 
+				break;
+			
+			case 5:
+				if(verificarClientes(quantClientes))
+					ler_nome_empresa(listaClientes,  quantClientes); 
+				break;
+			
+			case 6:
+				if(verificarClientes(quantClientes))
+					ler_nome_cliente(listaClientes,  quantClientes);
+				break;
+				
 			default: printf("\nOpcao Invalida!!\n");
 		}
 	}while(opc!=0);
