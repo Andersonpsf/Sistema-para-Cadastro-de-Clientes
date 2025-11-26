@@ -3,6 +3,10 @@
 #define MAX_CLIENTES 100
 #define SENHA 123
 
+typedef struct{
+	int dia;
+	int mes;
+}data;
 
 typedef struct{
 	char nome[100];
@@ -11,14 +15,8 @@ typedef struct{
 	char email[100];
 	char cep[15];
 	char celular[15];
+	data aniversario;
 }cliente;
-
-
-
-typedef struct Data{
-	int dia;
-	int mes;
-}data;
 
 int verificarClientes(int quantClientes)
 {
@@ -44,26 +42,59 @@ int verificarClientes(int quantClientes)
 * A Nova Quantidade de Clientes
 Cadastrados
 */
+int email_existe(cliente listaClientes[], int quantClientes, char email[])
+{
+	int i;
+	for (i = 0; i < quantClientes; i++)
+	{
+		if (strcmp(listaClientes[i].email, email) == 0)
+		{
+			return 1; // Email já existe
+		}
+	}
+	return 0; // Email não existe
+}
+
 int inserir_clientes(cliente listaClientes[], int quantClientes)
 {
-	printf("\nInsira as informa??es do Cliente: \n");
-	printf("\nNome:");
+	char emailTeste[100];
+	
+	printf("\nInsira as informacoes do Cliente: \n");
+	printf("\nNome: ");
 	scanf(" %[^\n]", listaClientes[quantClientes].nome);
 	
-	printf("\nTelefone:");
+	printf("\nTelefone: ");
 	scanf(" %[^\n]", listaClientes[quantClientes].telefone);
 
-	printf("\nEmpresa:");
+	printf("\nEmpresa: ");
 	scanf(" %[^\n]", listaClientes[quantClientes].empresa);
 	
-	printf("\nEmail:");
-	scanf(" %[^\n]", listaClientes[quantClientes].email);
+	do{
+		printf("\nEmail: ");
+		scanf(" %[^\n]", emailTeste);
+
+		if(email_existe(listaClientes, quantClientes, emailTeste))
+		{
+			printf("\nEmail ja cadastrado! Tente novamente.\n");
+		}
+
+	} while(email_existe(listaClientes, quantClientes, emailTeste));
 	
-	printf("\nCEP:");
+	strcpy(listaClientes[quantClientes].email, emailTeste);
+
+	printf("\nCEP: ");
 	scanf(" %[^\n]", listaClientes[quantClientes].cep);
 	
-	printf("\nCelular:");
+	printf("\nCelular: ");
 	scanf(" %[^\n]", listaClientes[quantClientes].celular);
+
+	printf("\nDia do aniversario: ");
+	scanf("%d", &listaClientes[quantClientes].aniversario.dia);
+
+	printf("\nMes do aniversario: ");
+	scanf("%d", &listaClientes[quantClientes].aniversario.mes);
+	
+	printf("\nCliente Cadastrado com Sucesso!\n");
 	return quantClientes+1;
 	
 }
@@ -240,19 +271,59 @@ char ler_nome_cliente(cliente listaClientes[], int quantClientes)
 	pesquisar_nome_cliente(listaClientes, quantClientes, nomeCliente);
 	
 }
+
+void pesquisar_nome_parcial(cliente listaClientes[], int quantClientes, char nomeParcial[])
+{
+	int i, encontrou = 0;
+	for(i = 0; i < quantClientes; i++)
+	{
+		if(strstr(listaClientes[i].nome, nomeParcial) != NULL)
+		{
+			printf("\nCliente %d:", i+1);
+			printf("\nNome: %s", listaClientes[i].nome);
+			
+			printf("\nTelefone: %s", listaClientes[i].telefone);
+			
+			printf("\nEmpresa: %s", listaClientes[i].empresa);
+				
+			printf("\nEmail: %s", listaClientes[i].email);
+				
+			printf("\nCEP: %s", listaClientes[i].cep);
+				
+			printf("\nCelular: %s\n", listaClientes[i].celular);
+			encontrou = 1;
+		}
+	}
+
+	if(!encontrou)
+	{
+		printf("\nNenhum cliente encontrado com o nome parcial fornecido.\n");
+	}
+}
+
+void ler_nome_parcial(cliente listaClientes[], int quantClientes)
+{
+	char nomeParcial[50];
+	
+	printf("Digite o nome parcial do cliente:");
+	scanf("%[^\n]", nomeParcial);
+	pesquisar_nome_parcial(listaClientes, quantClientes, nomeParcial);
+}
+
 int main()
 {
     cliente listaClientes[MAX_CLIENTES];
 	int quantClientes = 0;
 	int opc;
 	do{
-		printf("\n=====MENU=====\n");
+		printf("\n======== MENU ========\n");
 		printf("1 - Inserir Cliente\n");
 		printf("2 - Alterar Dados do Cliente\n");
 		printf("3 - Excluir Cliente\n");
-		printf("4 - Listar Clientes por Nome\n");
+		printf("4 - Listar Clientes\n");
 		printf("5 - Pesquisar por Nome da Empresa\n");
 		printf("6 - Pesquisar por Nome do Cliente\n");
+		printf("7 - Pesquisar por Nome Parcial do Cliente\n");
 		printf("0 - Sair\n");
 		printf("\nDigite a opcao desejada: ");
 		scanf("%d", &opc);
@@ -287,6 +358,10 @@ int main()
 				if(verificarClientes(quantClientes))
 					ler_nome_cliente(listaClientes,  quantClientes);
 				break;
+			
+			case 7:
+				if(verificarClientes(quantClientes))
+					ler_nome_parcial(listaClientes,  quantClientes);
 				
 			default: printf("\nOpcao Invalida!!\n");
 		}
