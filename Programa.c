@@ -176,10 +176,39 @@ void alterar_dados(cliente listaClientes[], int quantClientes)
     } while (opc != 0);
 }
 
-
-void excluir_cliente()
+int excluir_cliente(cliente listaClientes[], int quantClientes)
 {
-	
+	int indice, i, senha;
+	listar_nomes(listaClientes, quantClientes); 
+
+	printf("\nDigite o numero do cliente que voce deseja excluir: ");
+	scanf("%d", &indice);
+
+	printf("Digite a senha para confirmar a exclusao: ");
+	scanf("%d", &senha);
+
+	if (senha != SENHA)
+	{
+		printf("\nSenha incorreta! Exclusao cancelada.\n");
+		return quantClientes;
+	}
+
+	if (indice < 1 || indice > quantClientes)
+	{
+		printf("\nNao existe cliente nessa posicao!\n");
+		return;
+	}
+
+	indice--;
+
+	// Desloca os clientes para "remover" o cliente selecionado
+	for (i = indice; i < quantClientes - 1; i++)
+	{
+		listaClientes[i] = listaClientes[i + 1];
+	}
+
+	printf("\nCliente excluido com sucesso!\n");
+	return quantClientes - 1;
 }
 
 /*
@@ -243,6 +272,14 @@ char ler_nome_empresa(cliente listaClientes[], int quantClientes){
 void pesquisar_nome_cliente(cliente listaClientes[], int quantClientes, char nomeCliente[])
 {
 	int i;
+
+	if(strcmp(nomeCliente, listaClientes[0].nome) != 0)
+	{
+		printf("\nCliente nao encontrado!\n");
+		printf("Tente a opcao de nome parcial.\n");
+		return;
+	}
+
 	for(i = 0; i < quantClientes; i++)
 	{
 		if(strcmp(listaClientes[i].nome, nomeCliente) == 0)
@@ -310,6 +347,43 @@ void ler_nome_parcial(cliente listaClientes[], int quantClientes)
 	pesquisar_nome_parcial(listaClientes, quantClientes, nomeParcial);
 }
 
+void aniversariantes_mes(cliente listaClientes[], int quantClientes, int mes)
+{
+	int i, encontrou = 0;
+	printf("\n===== Aniversariantes do Mes %d =====\n", mes);
+	for(i = 0; i < quantClientes; i++)
+	{
+		if(listaClientes[i].aniversario.mes == mes)
+		{
+			printf("\nCliente %d:", i+1);
+			printf("\nNome: %s", listaClientes[i].nome);
+			printf("\nData de Aniversario: %02d/%02d\n", listaClientes[i].aniversario.dia, listaClientes[i].aniversario.mes);
+			encontrou = 1;
+		}
+	}
+
+	if(!encontrou)
+	{
+		printf("\nNenhum aniversariante encontrado neste mes.\n");
+	}
+}
+
+void ler_mes_aniversario(cliente listaClientes[], int quantClientes)
+{
+	int mes;
+	
+	printf("Digite o mes para ver os aniversariantes (1-12): ");
+	scanf("%d", &mes);
+	
+	if(mes < 1 || mes > 12)
+	{
+		printf("\nMes invalido! Por favor, insira um valor entre 1 e 12.\n");
+		return;
+	}
+	
+	aniversariantes_mes(listaClientes, quantClientes, mes);
+}
+
 int main()
 {
     cliente listaClientes[MAX_CLIENTES];
@@ -324,6 +398,7 @@ int main()
 		printf("5 - Pesquisar por Nome da Empresa\n");
 		printf("6 - Pesquisar por Nome do Cliente\n");
 		printf("7 - Pesquisar por Nome Parcial do Cliente\n");
+		printf("8 - Listar Aniversariantes do Mes\n");
 		printf("0 - Sair\n");
 		printf("\nDigite a opcao desejada: ");
 		scanf("%d", &opc);
@@ -341,7 +416,7 @@ int main()
 			
 			case 3: 
 				if(verificarClientes(quantClientes))
-					excluir_cliente(); 
+					quantClientes = excluir_cliente(listaClientes, quantClientes);
 				break;
 			
 			case 4: 
@@ -362,7 +437,13 @@ int main()
 			case 7:
 				if(verificarClientes(quantClientes))
 					ler_nome_parcial(listaClientes,  quantClientes);
-				
+				break;
+
+			case 8:
+				if(verificarClientes(quantClientes))
+					ler_mes_aniversario(listaClientes,  quantClientes);
+				break;
+
 			default: printf("\nOpcao Invalida!!\n");
 		}
 	}while(opc!=0);
