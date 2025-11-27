@@ -20,9 +20,25 @@ typedef struct{
 
 
 /*
-* Função: verificarClientes
-* Descrição: Verifica se existe Clientes cadastrados
+* Função: ler_string
+* Descrição: Pede e lê a informação desejada
 * Parâmetros:
+* mensagem: Texto que o usuário irá digitar
+* info: Informação a ser lida.
+* Retorna:
+* nada
+*/
+void ler_string(char mensagem[], char info[])
+{
+	printf("Digite o %s", mensagem);
+	scanf(" %[^\n]", info);
+}
+
+
+/*
+* Funcao: verificarClientes
+* Descricao: Verifica se existe Clientes cadastrados
+* Parametros:
 * quantClientes: quantidade de Clientes
 * Retorna:
 * 0 se não houver nenhum cliente cadastrado, caso contrário
@@ -42,21 +58,9 @@ int verificarClientes(int quantClientes)
 
 
 /*
-* Fun??o: inserir_clientes
-* Descri??o: Insere os dados de um cliente na lista.
-* Par?metros:
-* listaClientes: vetor de clientes.
-* cliente: estrutura contendo os dados do cliente.
-* quantClientes: N?meros de Clientes Cadastrados
-* Retorna:
-* A Nova Quantidade de Clientes
-Cadastrados
-*/
-
-/*
-* Função: email_existe
-* Descrição: Verifica se o email já não foi cadastrado por outro usuário 
-* Parâmetros:
+* Funcao: email_existe
+* Descricao: Verifica se o email já não foi cadastrado por outro usuário 
+* Parametros:
 * quantClientes: quantidade de Clientes
 * listaClientes: vetor de clientes.
 * cliente: estrutura contendo os dados do cliente.
@@ -65,7 +69,6 @@ Cadastrados
 * 0 se não houver nenhum cliente cadastrado, caso contrário
 retorna 1
 */
-
 int email_existe(cliente listaClientes[], int quantClientes, char email[])
 {
 	int i;
@@ -81,9 +84,9 @@ int email_existe(cliente listaClientes[], int quantClientes, char email[])
 
 
 /*
-* Fun??o: inserir_clientes
-* Descri??o: Insere os dados de um cliente na lista.
-* Par?metros:
+* Funcao: inserir_clientes
+* Descricao: Insere os dados de um cliente na lista.
+* Parametros:
 * listaClientes: vetor de clientes.
 * cliente: estrutura contendo os dados do cliente.
 * quantClientes: N?meros de Clientes Cadastrados
@@ -136,15 +139,16 @@ int inserir_clientes(cliente listaClientes[], int quantClientes)
 }
 
 /*
-* Função: alterar_dados
-* Descrição: Altera os dados desejados pelo usiário 
-* Parâmetros:
+* Funcao: alterar_dados
+* Descricao: Altera os dados desejados pelo usiário 
+* Parametros:
 * quantClientes: quantidade de Clientes
 * listaClientes: vetor de clientes.
 * cliente: estrutura contendo os dados do cliente.
 * Retorna:
 * nada
 */
+
 
 void alterar_dados(cliente listaClientes[], int quantClientes)
 {
@@ -224,16 +228,15 @@ void alterar_dados(cliente listaClientes[], int quantClientes)
 }
 
 /*
-* Função: excluir_cliente
-* Descrição: Exclui o cliente
-* Parâmetros:
+* Funcao: excluir_cliente
+* Descricao: Exclui o cliente
+* Parametros:
 * quantClientes: quantidade de Clientes
 * listaClientes: vetor de clientes.
 * cliente: estrutura contendo os dados do cliente.
 * Retorna:
 * A nova quantidade de clientes (quantClientes-1)
 */
-
 int excluir_cliente(cliente listaClientes[], int quantClientes)
 {
 	int indice, i, senha;
@@ -270,16 +273,15 @@ int excluir_cliente(cliente listaClientes[], int quantClientes)
 }
 
 /*
-* Fun??o: listar_nomes
-* Descri??o: Lista o .
-* Par?metros:
+* Funcao: listar_nomes
+* Descricao: Lista o .
+* Parametros:
 * lista: vetor de clientes.
 * cliente: estrutura contendo os dados do cliente.
 * Retorna:
-* 1 se a inser??o for bem-sucedida, 0 caso
-contr?rio.
+* 1 se a insercao for bem-sucedida, 0 caso
+contrario.
 */
-
 int listar_nomes(cliente listaClientes[], int quantClientes)
 {
 
@@ -296,9 +298,9 @@ int listar_nomes(cliente listaClientes[], int quantClientes)
 
 
 /*
-* Função: pesquisar_nome_empresa
-* Descrição: Pesquisa o nome da empresa entre os clientes cadastrados
-* Parâmetros:
+* Funcao: pesquisar_nome_empresa
+* Descricao: Pesquisa o nome da empresa entre os clientes cadastrados
+* Parametros:
 * quantClientes: quantidade de Clientes
 * listaClientes: vetor de clientes.
 * cliente: estrutura contendo os dados do cliente.
@@ -307,12 +309,12 @@ int listar_nomes(cliente listaClientes[], int quantClientes)
 * nada
 */
 
-void pesquisar_nome_empresa(cliente listaClientes[], int quantClientes, char nomeEmpresa[])
+void pesquisar_nome_empresa(cliente listaClientes[], int quantClientes, char info[])
 {
 	int i;
 	for(i = 0; i < quantClientes; i++)
 	{
-		if(strcmp(listaClientes[i].empresa, nomeEmpresa) == 0)
+		if(strcmp(listaClientes[i].empresa, info) == 0)
 		{
 			printf("\nCliente %d:", i+1);
 			printf("\nNome: %s", listaClientes[i].nome);
@@ -331,29 +333,11 @@ void pesquisar_nome_empresa(cliente listaClientes[], int quantClientes, char nom
 
 }
 
-/*
-* Função: ler_nome_empresa
-* Descrição: Lê o nome da empresa
-* Parâmetros:
-* quantClientes: quantidade de Clientes
-* listaClientes: vetor de clientes.
-* cliente: estrutura contendo os dados do cliente.
-* Retorna:
-* Chama a função pesquisar_nome_cliente no final
-*/
-char ler_nome_empresa(cliente listaClientes[], int quantClientes){
-	char nomeEmpresa[50];
-	
-	printf("Digite o nome da empresa:");
-	scanf("%s", nomeEmpresa);
-	pesquisar_nome_empresa(listaClientes, quantClientes, nomeEmpresa);
-	
-}
 
 /*
-* Função: pesquisar_nome_cliente
-* Descrição: Pesquisa o nome do Cliente cadastrado
-* Parâmetros:
+* Funcao: pesquisar_nome_cliente
+* Descricao: Pesquisa o nome do Cliente cadastrado
+* Parametros:
 * quantClientes: quantidade de Clientes
 * listaClientes: vetor de clientes.
 * cliente: estrutura contendo os dados do cliente.
@@ -363,15 +347,9 @@ char ler_nome_empresa(cliente listaClientes[], int quantClientes){
 */
 void pesquisar_nome_cliente(cliente listaClientes[], int quantClientes, char nomeCliente[])
 {
-	int i;
+	int i, encontrou = 0;
 
-	if(strcmp(nomeCliente, listaClientes[0].nome) != 0)
-	{
-		printf("\nCliente nao encontrado!\n");
-		printf("Tente a opcao de nome parcial.\n");
-		return;
-	}
-
+	
 	for(i = 0; i < quantClientes; i++)
 	{
 		if(strcmp(listaClientes[i].nome, nomeCliente) == 0)
@@ -388,33 +366,22 @@ void pesquisar_nome_cliente(cliente listaClientes[], int quantClientes, char nom
 			printf("\nCEP: %s", listaClientes[i].cep);
 				
 			printf("\nCelular: %s\n", listaClientes[i].celular);
+			encontrou = 1;
 		}
+	}
+	if(!encontrou)
+	{
+		printf("\nCliente nao encontrado!\n");
+		printf("Tente a opcao de nome parcial.\n");
 	}
 }
 
-/*
-* Função: ler_nome_cliente
-* Descrição: Lê o nome do cliente
-* Parâmetros:
-* quantClientes: quantidade de Clientes
-* listaClientes: vetor de clientes.
-* cliente: estrutura contendo os dados do cliente.
-* Retorna:
-* Chama a função pesquisar_nome_cliente no final
-*/
-char ler_nome_cliente(cliente listaClientes[], int quantClientes)
-{
-	char nomeCliente[50];
-	printf("Digite o Nome do Cliente: ");
-	scanf("%s", &nomeCliente);
-	pesquisar_nome_cliente(listaClientes, quantClientes, nomeCliente);
-	
-}
+
 
 /*
-* Função: pesquisar_nome_parcial
-* Descrição: Pesquisa os usuarios que tenham uma parte do nome
-* Parâmetros:
+* Funcao: pesquisar_nome_parcial
+* Descricao: Pesquisa os usuarios que tenham uma parte do nome
+* Parametros:
 * quantClientes: quantidade de Clientes
 * listaClientes: vetor de clientes.
 * cliente: estrutura contendo os dados do cliente.
@@ -451,30 +418,11 @@ void pesquisar_nome_parcial(cliente listaClientes[], int quantClientes, char nom
 	}
 }
 
-/*
-* Função: ler_nome_parcial
-* Descrição: Lê uma parte do nome do cliente 
-* Parâmetros:
-* quantClientes: quantidade de Clientes
-* listaClientes: vetor de clientes.
-* cliente: estrutura contendo os dados do cliente.
-* Retorna:
-* Chama a função pesquisar_nome_parcial no final
-*/
-void ler_nome_parcial(cliente listaClientes[], int quantClientes)
-{
-	char nomeParcial[50];
-	
-	printf("Digite o nome parcial do cliente:");
-	scanf("%[^\n]", nomeParcial);
-	pesquisar_nome_parcial(listaClientes, quantClientes, nomeParcial);
-}
-
 
 /*
-* Função: aniversariantes_mes
-* Descrição: Mostra quais são os aniversariantes do mês
-* Parâmetros:
+* Funcao: aniversariantes_mes
+* Descricao: Mostra quais são os aniversariantes do mes
+* Parametros:
 * quantClientes: quantidade de Clientes
 * listaClientes: vetor de clientes.
 * cliente: estrutura contendo os dados do cliente.
@@ -504,14 +452,14 @@ void aniversariantes_mes(cliente listaClientes[], int quantClientes, int mes)
 }
 
 /*
-* Função: ler_mes_aniversario
-* Descrição: Lê o mes de aniversario do cliente
-* Parâmetros:
+* Funcao: ler_mes_aniversario
+* Descricao: Le o mes de aniversario do cliente
+* Parametros:
 * quantClientes: quantidade de Clientes
 * listaClientes: vetor de clientes.
 * cliente: estrutura contendo os dados do cliente.
 * Retorna:
-* Chama a função aniversariantes_mes no final
+* Chama a funcao aniversariantes_mes no final
 */
 void ler_mes_aniversario(cliente listaClientes[], int quantClientes)
 {
@@ -532,6 +480,7 @@ void ler_mes_aniversario(cliente listaClientes[], int quantClientes)
 int main()
 {
     cliente listaClientes[MAX_CLIENTES];
+    char nomeEmpresa[50], nomeCliente[50], nomeParcial[50];
 	int quantClientes = 0;
 	int opc;
 	do{
@@ -546,7 +495,7 @@ int main()
 		printf("8 - Listar Aniversariantes do Mes\n");
 		printf("0 - Sair\n");
 		printf("\nDigite a opcao desejada: ");
-		scanf("%d", &opc);
+		scanf(" %d", &opc);
 		
 		switch(opc)
 		{
@@ -571,17 +520,22 @@ int main()
 			
 			case 5:
 				if(verificarClientes(quantClientes))
-					ler_nome_empresa(listaClientes,  quantClientes); 
+				{
+					ler_string("nome da Empresa: ", nomeEmpresa);
+					pesquisar_nome_empresa(listaClientes, quantClientes, nomeEmpresa);
+				}
 				break;
 			
 			case 6:
 				if(verificarClientes(quantClientes))
-					ler_nome_cliente(listaClientes,  quantClientes);
+					ler_string("nome do Cliente: ", nomeCliente);
+					pesquisar_nome_cliente(listaClientes,  quantClientes, nomeCliente);
 				break;
 			
 			case 7:
 				if(verificarClientes(quantClientes))
-					ler_nome_parcial(listaClientes,  quantClientes);
+					ler_string("nome do Cliente: ", nomeParcial);
+					pesquisar_nome_parcial(listaClientes,  quantClientes, nomeParcial);
 				break;
 
 			case 8:
